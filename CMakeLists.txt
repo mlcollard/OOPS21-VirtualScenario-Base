@@ -15,16 +15,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Debug)
 
 # ScenarioA application
-set(SOURCEA A.cpp AUtilities.cpp)
-add_executable(ScenarioA ScenarioA.cpp ${SOURCEA})
+add_library(A OBJECT A.cpp AUtilities.cpp)
+add_executable(ScenarioA ScenarioA.cpp $<TARGET_OBJECTS:A>)
 
 # ScenarioB application
-set(SOURCEB B.cpp BUtilities.cpp)
-add_executable(ScenarioB ScenarioB.cpp ${SOURCEB} ${SOURCEA})
+add_library(B OBJECT B.cpp BUtilities.cpp)
+add_executable(ScenarioB ScenarioB.cpp $<TARGET_OBJECTS:A> $<TARGET_OBJECTS:B>)
 
 # ScenarioC application
-set(SOURCEC C.cpp CUtilities.cpp)
-add_executable(ScenarioC ScenarioC.cpp ${SOURCEC} ${SOURCEB} ${SOURCEA})
+add_library(C OBJECT C.cpp CUtilities.cpp)
+add_executable(ScenarioC ScenarioC.cpp $<TARGET_OBJECTS:A> $<TARGET_OBJECTS:B> $<TARGET_OBJECTS:C>)
 
 # run all scenarios
 add_custom_target(runall
